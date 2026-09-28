@@ -1,0 +1,9 @@
+model_name: albert-base-v2
+learning_rate: 2e-5
+batch_size: 16
+num_epochs: 3
+weight_decay: 0.01
+use_gpu: true
+seed: 42
+output_dir: ./outputs/albert
+max_length: 256
