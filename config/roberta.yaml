@@ -1,0 +1,9 @@
+model_name: roberta-base
+learning_rate: 2e-5
+batch_size: 16
+num_epochs: 3
+weight_decay: 0.01
+use_gpu: true
+seed: 42
+output_dir: ./outputs/roberta
+max_length: 256
