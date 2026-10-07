@@ -5,3 +5,4 @@ seqeval
 PyYAML
 numpy
 matplotlib
+accelerate
