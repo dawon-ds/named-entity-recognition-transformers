@@ -2,6 +2,8 @@
 
 A token-classification project comparing **RoBERTa-base** and **ALBERT-base-v2** on the **CoNLL-2003 Named Entity Recognition (NER)** dataset.
 
+[Portfolio](https://incredible-march-0ef.notion.site/Named-Entity-Recognition-with-RoBERTa-ALBERT-3e968564df5a81ffa20edbcd1d169c0e)
+
 ## Project Overview
 
 The project fine-tunes pretrained Transformer models under the same training setup and compares their validation F1 scores.
