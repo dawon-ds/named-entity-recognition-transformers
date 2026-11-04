@@ -97,3 +97,10 @@ The reported F1 scores are taken from the submitted assignment evaluation sheet.
 ## Review
 
 The project demonstrates why tokenization and supervision must be aligned in NER. Masking later subwords preserves one supervised prediction per word, while the shared experiment setup supports comparison of the two pretrained models. Future work could add held-out test evaluation and entity-specific error analysis.
+
+## Data and Third-party Resources
+
+- **Dataset:** CoNLL-2003 NER, loaded through Hugging Face Datasets. The dataset's source-specific license and citation conditions apply.
+- **Models:** RoBERTa-base and ALBERT-base-v2 pretrained checkpoints have their own distribution and reuse conditions.
+
+Dependency lists are in `requirements.txt`; unless versions are explicitly pinned there, they do not reproduce an exact historical software environment. No redistribution permission for third-party inputs is implied by this repository.
