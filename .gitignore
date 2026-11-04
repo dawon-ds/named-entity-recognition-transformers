@@ -9,3 +9,5 @@ log/
 *.pth
 *.ckpt
 .DS_Store
+.env.*
+!.env.example
