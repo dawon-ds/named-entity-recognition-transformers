@@ -1,5 +1,7 @@
 # Named Entity Recognition with RoBERTa & ALBERT
 
+[Portfolio Page](https://app.notion.com/p/3e968564df5a81ffa20edbcd1d169c0e)
+
 A token-classification project comparing **RoBERTa-base** and **ALBERT-base-v2** on the **CoNLL-2003 Named Entity Recognition (NER)** dataset.
 
 
