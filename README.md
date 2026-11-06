@@ -42,7 +42,6 @@ Fine-tuning **RoBERTa-base** and **ALBERT-base-v2** for named entity recognition
 | RoBERTa-base | **0.9588** |
 | ALBERT-base-v2 | 0.9394 |
 
-*Reported validation results; no separate test-set performance is claimed here.*
 
 ## Repository Structure
 
