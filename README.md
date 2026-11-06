@@ -29,6 +29,12 @@ Fine-tuning **RoBERTa-base** and **ALBERT-base-v2** for named entity recognition
 
 **Weight Decay:** 0.01 · **Seed:** 42
 
+## Key Findings
+
+- **Model comparison:** Under the same training settings, RoBERTa-base achieved a 1.94-percentage-point higher validation F1 than ALBERT-base-v2.
+- **Subword label alignment:** Only the first subword of each word receives its NER label; later subwords and special/padding tokens are masked with `-100` to avoid duplicate contributions to training and evaluation.
+- **Entity-level evaluation:** `seqeval` Precision, Recall, and F1 measure complete named entities rather than relying on token-level accuracy.
+
 ## Results
 
 | Model | Validation F1 |
@@ -36,7 +42,9 @@ Fine-tuning **RoBERTa-base** and **ALBERT-base-v2** for named entity recognition
 | RoBERTa-base | **0.9588** |
 | ALBERT-base-v2 | 0.9394 |
 
-RoBERTa-base achieved a validation F1 **1.94 percentage points** higher than ALBERT-base-v2 under the compared settings.
+![Validation F1 comparison of RoBERTa-base (0.9588) and ALBERT-base-v2 (0.9394)](assets/validation-f1.svg)
+
+*Reported validation results; no separate test-set performance is claimed here.*
 
 ## Repository Structure
 
@@ -51,6 +59,8 @@ RoBERTa-base achieved a validation F1 **1.94 percentage points** higher than ALB
 │   ├── train.py
 │   └── utils.py
 ├── main.py
+├── assets/
+│   └── validation-f1.svg
 ├── requirements.txt
 └── README.md
 ```
@@ -70,6 +80,6 @@ python main.py --config config/roberta.yaml
 python main.py --config config/albert.yaml
 ```
 
-The program loads CoNLL-2003 and pretrained model/tokenizer files through Hugging Face. Checkpoints and training figures are written to `outputs/roberta/` or `outputs/albert/`, including `loss_plot.png` and `f1_plot.png`.
+The program loads CoNLL-2003 and pretrained model/tokenizer files through Hugging Face, so network access may be needed on the first run. Checkpoints and training figures are written to `outputs/roberta/` or `outputs/albert/`, including `loss_plot.png` and `f1_plot.png`. The repository lists dependencies in `requirements.txt` without pinned versions; the commands above have not been freshly validated across package versions.
 
 **Data and models:** CoNLL-2003 and the pretrained checkpoints are third-party resources with their respective usage and license terms.
