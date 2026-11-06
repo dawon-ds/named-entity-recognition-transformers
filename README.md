@@ -42,8 +42,6 @@ Fine-tuning **RoBERTa-base** and **ALBERT-base-v2** for named entity recognition
 | RoBERTa-base | **0.9588** |
 | ALBERT-base-v2 | 0.9394 |
 
-![Validation F1 comparison of RoBERTa-base (0.9588) and ALBERT-base-v2 (0.9394)](assets/validation-f1.svg)
-
 *Reported validation results; no separate test-set performance is claimed here.*
 
 ## Repository Structure
@@ -59,8 +57,6 @@ Fine-tuning **RoBERTa-base** and **ALBERT-base-v2** for named entity recognition
 │   ├── train.py
 │   └── utils.py
 ├── main.py
-├── assets/
-│   └── validation-f1.svg
 ├── requirements.txt
 └── README.md
 ```
