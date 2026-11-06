@@ -2,47 +2,41 @@
 
 [Portfolio Page](https://app.notion.com/p/3e968564df5a81ffa20edbcd1d169c0e)
 
-A token-classification project comparing **RoBERTa-base** and **ALBERT-base-v2** on the **CoNLL-2003 Named Entity Recognition (NER)** dataset.
-
+Fine-tuning **RoBERTa-base** and **ALBERT-base-v2** for named entity recognition (NER) on **CoNLL-2003** and comparing their validation F1 scores.
 
 ## Project Overview
 
-The project fine-tunes pretrained Transformer models under the same training setup and compares their validation F1 scores.
+- **Task:** Named Entity Recognition / Token Classification
+- **Dataset:** CoNLL-2003
+- **Models:** RoBERTa-base, ALBERT-base-v2
+- **Tech Stack:** Python, PyTorch, Hugging Face Transformers, Datasets, seqeval
 
-Both experiments used 3 epochs, batch size 16, learning rate 2e-5, and weight decay 0.01. The configuration files also specify maximum sequence length 256 and seed 42.
+## Implementation
 
-## Approach
+- Loads the CoNLL-2003 dataset and tokenizes its pre-split words.
+- Aligns word-level NER tags with subword tokens using `word_ids()`.
+- Assigns each word's label to its first subword; masks later subwords, special tokens, and padding with `-100`.
+- Fine-tunes both models using Hugging Face Trainer and the same hyperparameters.
+- Computes entity-level Precision, Recall, and F1 using `seqeval`.
+- Selects checkpoints using validation F1 and saves training plots.
 
-- Loaded the CoNLL-2003 NER dataset with Hugging Face Datasets.
-- Tokenized pre-split words with a pretrained tokenizer.
-- Aligned word-level NER labels to subword tokens.
-- Ignored special tokens and repeated subword pieces with label `-100`.
-- Fine-tuned Transformer token-classification models with Hugging Face Trainer.
-- Evaluated precision, recall, and F1 using `seqeval`.
-- Compared RoBERTa-base and ALBERT-base-v2 under the same training configuration.
+## Experiment Settings
 
-### Label Alignment & Evaluation
+| Model | Epochs | Batch Size | Learning Rate | Max Length |
+| --- | ---: | ---: | ---: | ---: |
+| RoBERTa-base | 3 | 16 | 2e-5 | 256 |
+| ALBERT-base-v2 | 3 | 16 | 2e-5 | 256 |
 
-CoNLL-2003 supplies labels for words, but Transformer tokenizers may split each word into several pieces. The implementation uses `word_ids()` to map subwords back to the original words:
-
-| Token position | Assigned label |
-| --- | --- |
-| First subword of a word | Original word-level NER label |
-| Later subwords of the same word | `-100` |
-| Special and padding tokens | `-100` |
-
-Masked positions are ignored by the training loss and removed before metric computation. Predictions are converted back to label sequences and scored with `seqeval`, which measures entity-level precision, recall, and F1.
-
-Training uses the dataset's training split, and evaluation uses its validation split. The best checkpoint is selected by validation F1 and restored at the end of training. The current entry point reports validation F1; it does not evaluate the test split.
+**Weight Decay:** 0.01 · **Seed:** 42
 
 ## Results
 
 | Model | Validation F1 |
 | --- | ---: |
 | RoBERTa-base | **0.9588** |
-| ALBERT-base-v2 | **0.9394** |
+| ALBERT-base-v2 | 0.9394 |
 
-RoBERTa's reported F1 is higher by **0.0194**, or **1.94 percentage points**.
+RoBERTa-base achieved a validation F1 **1.94 percentage points** higher than ALBERT-base-v2 under the compared settings.
 
 ## Repository Structure
 
@@ -63,45 +57,19 @@ RoBERTa's reported F1 is higher by **0.0194**, or **1.94 percentage points**.
 
 ## Usage
 
-Install dependencies from the repository root:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run either configuration:
+Run either model:
 
 ```bash
 python main.py --config config/roberta.yaml
 python main.py --config config/albert.yaml
 ```
 
-The program loads CoNLL-2003 and pretrained model/tokenizer files through Hugging Face. First execution requires access to these resources or an existing local cache.
+The program loads CoNLL-2003 and pretrained model/tokenizer files through Hugging Face. Checkpoints and training figures are written to `outputs/roberta/` or `outputs/albert/`, including `loss_plot.png` and `f1_plot.png`.
 
-Checkpoints and plots are written under `outputs/roberta/` or `outputs/albert/`:
-
-- `checkpoint-*/` — saved model checkpoints
-- `loss_plot.png` — training and validation loss
-- `f1_plot.png` — validation F1
-
-### Data & Artifacts
-
-The reported F1 scores are taken from the submitted assignment evaluation sheet. This portfolio repository reorganizes the original implementation for readability while preserving the experiment setup and evaluation logic.
-
-## Limitations
-
-- Validation data is used for both checkpoint selection and the reported evaluation; test-set performance is not reported.
-- Fixed-length tokenization can truncate sequences longer than 256 tokens.
-- The comparison does not include repeated runs, uncertainty estimates, per-entity error analysis, or inference-cost measurements.
-- Dependency versions are not pinned, so changes to dataset loading or Trainer APIs may require compatibility adjustments.
-
-## Review
-
-The project demonstrates why tokenization and supervision must be aligned in NER. Masking later subwords preserves one supervised prediction per word, while the shared experiment setup supports comparison of the two pretrained models. Future work could add held-out test evaluation and entity-specific error analysis.
-
-## Data and Third-party Resources
-
-- **Dataset:** CoNLL-2003 NER, loaded through Hugging Face Datasets. The dataset's source-specific license and citation conditions apply.
-- **Models:** RoBERTa-base and ALBERT-base-v2 pretrained checkpoints have their own distribution and reuse conditions.
-
-Dependency lists are in `requirements.txt`; unless versions are explicitly pinned there, they do not reproduce an exact historical software environment. No redistribution permission for third-party inputs is implied by this repository.
+**Data and models:** CoNLL-2003 and the pretrained checkpoints are third-party resources with their respective usage and license terms.
